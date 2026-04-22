@@ -10,21 +10,18 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-–pink-bg-from: #fce4ec;
-–pink-bg-to: #fdf0f5;
-–pink-btn: #f4b8cc;
-–pink-btn-hover: #eda8be;
-–pink-dark: #c0546e;
-–pink-deep: #9c3a52;
+–coral: #f07070;
+–coral-dark: #e05858;
+–coral-light: #f89898;
 –ink: #1a1a1a;
-–ink-light: #8a4a5e;
+–ink-light: #555;
 –white: #ffffff;
 –envelope: #f5c8d4;
 –envelope-dark: #e09ab0;
 –envelope-mid: #f0b0c4;
 –ribbon: #d4547a;
-–shadow: rgba(180,80,120,0.10);
-–shadow-card: rgba(180,80,120,0.13);
+–shadow: rgba(200,80,80,0.12);
+–shadow-card: rgba(200,80,80,0.15);
 }
 
 body {
@@ -32,37 +29,33 @@ font-family: ‘Lora’, Georgia, serif;
 min-height: 100vh;
 display: flex; align-items: center; justify-content: center;
 padding: 20px;
-background: radial-gradient(ellipse at 50% 0%, #fce4ec 0%, #fdf0f5 55%, #fff0f4 100%);
+background: linear-gradient(160deg, #f8a0a0 0%, #f07070 40%, #f89898 100%);
 }
 
 .page { display: none; width: 100%; max-width: 520px; }
 .page.active { display: flex; flex-direction: column; align-items: center; }
 
 /* ══ HOME ══ */
-#page-home {
-min-height: 80vh;
-justify-content: center;
-}
+#page-home { min-height: 80vh; justify-content: center; }
 .home-card {
 background: white;
 border-radius: 28px;
 padding: 48px 44px;
 width: 100%;
-max-width: 360px;
-box-shadow: 0 8px 48px var(–shadow-card), 0 1px 2px rgba(180,80,120,0.06);
+max-width: 380px;
+box-shadow: 0 12px 60px rgba(180,60,60,0.2);
 display: flex; flex-direction: column; align-items: center;
-justify-content: center;
-gap: 0;
+justify-content: center; gap: 0;
 }
 .home-icon-wrap {
-width: 100px; height: 100px;
-min-width: 100px; min-height: 100px;
+width: 80px; height: 80px;
+min-width: 80px; min-height: 80px;
 background: white;
 border-radius: 50%;
 display: flex; align-items: center; justify-content: center;
-font-size: 46px;
-margin-bottom: 36px;
-box-shadow: 0 0 40px rgba(210, 100, 140, 0.22), 0 0 16px rgba(210, 100, 140, 0.14);
+font-size: 36px;
+margin-bottom: 28px;
+box-shadow: 0 0 36px rgba(240,80,80,0.55), 0 0 14px rgba(240,80,80,0.35);
 flex-shrink: 0;
 }
 .home-title {
@@ -72,19 +65,19 @@ font-size: clamp(1.7rem, 5vw, 2.2rem);
 color: var(–ink);
 text-align: center;
 line-height: 1.2;
-margin-bottom: 14px;
+margin-bottom: 12px;
 }
 .home-subtitle {
-color: #b07080;
+color: var(–ink-light);
 font-style: italic;
-font-size: 0.92rem;
+font-size: 0.95rem;
 text-align: center;
-margin-bottom: 40px;
+margin-bottom: 36px;
 line-height: 1.5;
 }
 .home-btn {
-background: #fce4ec;
-color: var(–ink);
+background: var(–coral);
+color: white;
 border: none; cursor: pointer;
 font-family: ‘Lora’, serif;
 font-size: 1rem;
@@ -96,9 +89,9 @@ transition: all 0.2s;
 letter-spacing: 0.01em;
 }
 .home-btn:hover {
-background: #f8cfe0;
+background: var(–coral-dark);
 transform: translateY(-1px);
-box-shadow: 0 4px 16px rgba(180,80,120,0.18);
+box-shadow: 0 4px 16px rgba(200,80,80,0.3);
 }
 
 /* ══ PAGE HEADER ══ */
@@ -107,7 +100,7 @@ box-shadow: 0 4px 16px rgba(180,80,120,0.18);
 font-family: ‘DM Serif Display’, serif; font-style: italic;
 font-size: clamp(1.6rem, 4vw, 2rem); color: var(–ink); line-height: 1.2;
 }
-.page-header p { color: var(–ink-light); font-style: italic; margin-top: 7px; font-size: 0.9rem; }
+.page-header p { color: #444; font-style: italic; margin-top: 7px; font-size: 0.9rem; }
 
 /* ══ PAPER ══ */
 .paper {
@@ -116,10 +109,8 @@ padding: 40px 44px; width: 100%;
 box-shadow: 0 4px 24px var(–shadow-card);
 position: relative; overflow: hidden;
 }
-.paper::before {
-content: ‘’; position: absolute; left: 66px; top: 0; bottom: 0;
-width: 1px; background: rgba(192,84,110,0.08);
-}
+#page-write .page-header p { color: white; }
+.paper::before { display: none; }
 
 .field-group { margin-bottom: 20px; }
 .field-label {
@@ -127,13 +118,13 @@ display: block; font-size: 0.67rem; letter-spacing: 0.15em;
 text-transform: uppercase; color: var(–ink-light); margin-bottom: 5px; padding-left: 3px;
 }
 input[type=“text”], textarea, input[type=“password”] {
-width: 100%; border: none; border-bottom: 1px solid rgba(58,26,36,0.12);
+width: 100%; border: none; border-bottom: 1px solid rgba(0,0,0,0.12);
 padding: 8px 3px; font-family: ‘Lora’, serif; font-size: 0.97rem;
 color: var(–ink); background: transparent; outline: none;
 transition: border-color 0.2s; resize: none;
 }
-input:focus, textarea:focus { border-bottom-color: var(–pink-dark); }
-input::placeholder, textarea::placeholder { color: rgba(58,26,36,0.25); font-style: italic; }
+input:focus, textarea:focus { border-bottom-color: var(–coral); }
+input::placeholder, textarea::placeholder { color: rgba(0,0,0,0.25); font-style: italic; }
 textarea { min-height: 190px; line-height: 1.9; }
 
 /* ══ BUTTONS ══ */
@@ -143,11 +134,15 @@ padding: 13px 28px; border: none; cursor: pointer;
 font-family: ‘Lora’, serif; font-size: 0.97rem;
 border-radius: 50px; transition: all 0.2s;
 }
-.btn-primary { background: #fce4ec; color: var(–ink); }
-.btn-primary:hover { background: #f8cfe0; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(180,80,120,0.18); }
-.btn-secondary { background: transparent; color: var(–ink-light); border: 1px solid var(–envelope-dark); font-size: 0.86rem; }
-.btn-secondary:hover { background: #fdf0f5; }
-.btn-ghost { background: transparent; color: var(–ink); font-size: 0.85rem; font-family: ‘Lora’, serif; font-style: italic; text-decoration: underline; cursor: pointer; border: none; padding: 4px 0; }
+.btn-primary { background: var(–coral); color: white; }
+.btn-primary:hover { background: var(–coral-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(200,80,80,0.3); }
+.btn-secondary { background: transparent; color: var(–ink); border: 1px solid rgba(0,0,0,0.2); font-size: 0.86rem; }
+.btn-secondary:hover { background: rgba(0,0,0,0.04); }
+.btn-ghost {
+background: transparent; color: var(–ink); font-size: 0.97rem;
+font-family: ‘Lora’, serif; font-style: italic;
+text-decoration: underline; cursor: pointer; border: none; padding: 4px 0;
+}
 .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
 
 /* ══ LINK CARD ══ */
@@ -155,66 +150,166 @@ border-radius: 50px; transition: all 0.2s;
 background: white; border-radius: 20px; padding: 40px 36px; width: 100%;
 text-align: center; box-shadow: 0 4px 24px var(–shadow-card);
 }
-.link-card .seal { width: 56px; height: 56px; background: #fce4ec; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
-.link-card h2 { font-family:‘DM Serif Display’,serif; font-style:italic; font-size:1.5rem; margin-bottom:9px; }
-.link-card p { color:#b07080; font-style:italic; margin-bottom:22px; font-size:0.88rem; }
+.link-card .seal { width: 56px; height: 56px; background: #ffe0e0; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.link-card h2 { font-family:‘DM Serif Display’,serif; font-style:italic; font-size:1.5rem; margin-bottom:9px; color: var(–ink); }
+.link-card p { color: var(–ink); font-style:italic; margin-bottom:22px; font-size:0.97rem; }
+.link-card .btn-ghost { font-size: 0.97rem; color: var(–ink); }
 .link-box {
-background: #fdf0f5; border: 1px solid var(–envelope-dark); border-radius: 10px;
+background: #fff5f5; border: 1px solid #f0a0a0; border-radius: 10px;
 padding: 12px 15px; font-family: monospace; font-size: 0.73rem; color: var(–ink);
 word-break: break-all; text-align: left; margin-bottom: 13px; max-height: 72px; overflow-y: auto;
 }
-.copy-ok { font-size:0.82rem; color:var(–pink-dark); font-style:italic; height:18px; margin-bottom:18px; }
+.copy-ok { font-size:0.82rem; color:var(–coral-dark); font-style:italic; height:18px; margin-bottom:18px; }
 
-/* ══ ENVELOPE ══ */
-#page-envelope { perspective: 1000px; }
-.envelope-scene { position: relative; width: min(360px, 88vw); cursor: pointer; }
-.envelope-wrap { position: relative; width: 100%; padding-top: 65%; }
-.envelope-body { position:absolute; inset:0; background:var(–envelope); border-radius:4px 4px 8px 8px; box-shadow:0 8px 32px rgba(58,26,36,0.15),0 2px 6px rgba(58,26,36,0.07); }
-.env-bottom { position:absolute; bottom:0;left:0;right:0;height:55%; background:var(–envelope-dark); clip-path:polygon(0% 100%,50% 0%,100% 100%); }
-.env-left { position:absolute; top:0;left:0;bottom:0;width:50%; background:color-mix(in srgb,var(–envelope) 85%,var(–envelope-dark)); clip-path:polygon(0% 0%,100% 50%,0% 100%); }
-.env-right { position:absolute; top:0;right:0;bottom:0;width:50%; background:color-mix(in srgb,var(–envelope) 75%,var(–envelope-dark)); clip-path:polygon(100% 0%,0% 50%,100% 100%); }
-.env-flap { position:absolute;top:0;left:0;right:0;height:52%; transform-origin:top center; transition:transform 0.65s cubic-bezier(0.4,0,0.2,1);z-index:3; }
-.env-flap-inner { width:100%;height:100%; background:var(–envelope-mid); clip-path:polygon(0% 0%,50% 100%,100% 0%); filter:drop-shadow(0 2px 4px rgba(58,26,36,0.07)); }
-.envelope-scene.open .env-flap { transform:rotateX(-180deg); }
-.env-ribbon-h { position:absolute;top:50%;left:-4%;right:-4%;height:11%;transform:translateY(-50%);background:var(–ribbon);z-index:5;box-shadow:0 1px 4px rgba(58,26,36,0.13);transition:opacity 0.25s; }
-.env-ribbon-h::after { content:’’;position:absolute;top:0;left:0;right:0;height:38%;background:rgba(255,255,255,0.2); }
-.env-ribbon-v { position:absolute;left:50%;top:-4%;bottom:-4%;width:11%;transform:translateX(-50%);background:var(–ribbon);z-index:5;box-shadow:0 1px 4px rgba(58,26,36,0.13);transition:opacity 0.25s; }
-.env-ribbon-v::after { content:’’;position:absolute;top:0;left:0;width:38%;bottom:0;background:rgba(255,255,255,0.2); }
-.env-bow { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:6;font-size:clamp(26px,6.5vw,40px);line-height:1;filter:drop-shadow(0 2px 4px rgba(58,26,36,0.18));transition:opacity 0.25s;pointer-events:none; }
-.envelope-scene.open .env-ribbon-h,
-.envelope-scene.open .env-ribbon-v,
-.envelope-scene.open .env-bow { opacity:0; }
-.env-letter { position:absolute;left:8%;right:8%;bottom:4%;height:90%;background:white;border-radius:2px;z-index:2;transform:translateY(0);transition:transform 0.7s cubic-bezier(0.4,0,0.2,1) 0.35s;box-shadow:0 2px 8px rgba(58,26,36,0.07);display:flex;align-items:center;justify-content:center;font-family:‘DM Serif Display’,serif;font-style:italic;color:#c0a0b0;font-size:0.8rem; }
-.envelope-scene.open .env-letter { transform:translateY(-55%); }
-.env-hint { text-align:center;margin-top:18px;color:#b07080;font-style:italic;font-size:0.88rem;animation:pulse 2s ease-in-out infinite;transition:opacity 0.3s; }
-@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+/* ══ ENVELOPE PAGE ══ */
+#page-envelope {
+min-height: 100vh;
+justify-content: center;
+width: 100%;
+}
+
+.env-scene {
+display: flex; flex-direction: column; align-items: center;
+cursor: pointer;
+user-select: none;
+}
+
+.env-wrap {
+position: relative;
+width: min(280px, 80vw);
+height: min(196px, 56vw);
+}
+
+/* Corps enveloppe blanc */
+.env-body {
+position: absolute; inset: 0;
+background: white;
+border-radius: 6px;
+box-shadow: 0 12px 48px rgba(180,40,40,0.22), 0 2px 8px rgba(180,40,40,0.1);
+}
+
+/* Triangle bas */
+.env-tri-bottom {
+position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
+background: #ffe0e0;
+clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+}
+/* Triangle gauche */
+.env-tri-left {
+position: absolute; top: 0; left: 0; bottom: 0; width: 50%;
+background: #fff0f0;
+clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+}
+/* Triangle droite */
+.env-tri-right {
+position: absolute; top: 0; right: 0; bottom: 0; width: 50%;
+background: #ffe8e8;
+clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+}
+
+/* Rabat */
+.env-flap {
+position: absolute; top: 0; left: 0; right: 0; height: 52%;
+transform-origin: top center;
+transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+z-index: 4;
+}
+.env-flap-inner {
+width: 100%; height: 100%;
+background: white;
+clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+filter: drop-shadow(0 3px 6px rgba(180,40,40,0.12));
+}
+.env-scene.open .env-flap {
+transform: rotateX(-180deg);
+}
+
+/* Cœur sur l’enveloppe */
+.env-heart {
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+z-index: 5;
+font-size: clamp(28px, 8vw, 38px);
+line-height: 1;
+transition: opacity 0.3s;
+pointer-events: none;
+}
+.env-scene.open .env-heart { opacity: 0; }
+
+/* Petit papier qui sort */
+.env-paper {
+position: absolute;
+left: 10%; right: 10%; bottom: 5%;
+height: 85%;
+background: white;
+border-radius: 3px;
+z-index: 2;
+transform: translateY(0);
+transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s;
+box-shadow: 0 2px 10px rgba(180,40,40,0.1);
+display: flex; align-items: center; justify-content: center;
+font-size: 1.2rem;
+}
+.env-scene.open .env-paper {
+transform: translateY(-60%);
+}
+
+.env-hint {
+margin-top: 24px;
+color: white;
+font-style: italic;
+font-size: 0.9rem;
+animation: pulse 2s ease-in-out infinite;
+transition: opacity 0.3s;
+}
+@keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
 
 /* ══ LETTER ══ */
-#page-letter { animation:fadeUp 0.8s ease forwards; }
-#page-reply-sent { animation:fadeUp 0.6s ease forwards; }
-#page-read-reply { animation:fadeUp 0.6s ease forwards; }
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+#page-letter { animation: fadeUp 0.8s ease forwards; }
+#page-reply-sent { animation: fadeUp 0.6s ease forwards; }
+#page-read-reply { animation: fadeUp 0.6s ease forwards; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 
 .letter-paper {
-background:white;width:100%;padding:48px 52px 44px;
-box-shadow:0 4px 28px var(–shadow-card);
-border-radius:16px;position:relative;line-height:1.95;overflow:hidden;
+background: white; width: 100%;
+padding: 48px 44px 44px;
+box-shadow: 0 4px 28px rgba(180,40,40,0.15);
+border-radius: 16px;
+position: relative;
+line-height: 1.95;
 }
-.letter-paper::before{content:’’;position:absolute;left:72px;top:0;bottom:0;width:1px;background:rgba(192,84,110,0.07);z-index:0;}
-.letter-lines{position:absolute;inset:0;background:repeating-linear-gradient(transparent,transparent calc(1.95em - 1px),rgba(58,26,36,0.04) calc(1.95em - 1px),rgba(58,26,36,0.04) 1.95em);pointer-events:none;z-index:0;}
-.flower-corner{position:absolute;width:88px;height:88px;opacity:0.18;pointer-events:none;}
-.flower-tl{top:0;left:0}.flower-tr{top:0;right:0;transform:scaleX(-1)}.flower-bl{bottom:0;left:0;transform:scaleY(-1)}.flower-br{bottom:0;right:0;transform:scale(-1,-1)}
-.letter-content{position:relative;z-index:1;}
-.letter-to{font-family:‘DM Serif Display’,serif;font-style:italic;font-size:1.1rem;margin-bottom:22px;color:var(–ink);}
-.letter-body{font-size:0.97rem;white-space:pre-wrap;color:var(–ink);}
-.letter-from{margin-top:26px;text-align:right;font-family:‘DM Serif Display’,serif;font-style:italic;font-size:1rem;color:var(–ink);}
-.ornament{text-align:center;color:var(–pink-dark);font-size:0.9rem;letter-spacing:0.4em;margin:16px 0;opacity:0.4;}
-.reply-section{margin-top:28px;padding-top:24px;border-top:1px solid #fce4ec;position:relative;z-index:1;}
-.reply-section h3{font-family:‘DM Serif Display’,serif;font-style:italic;font-size:1.05rem;color:#b07080;margin-bottom:16px;text-align:center;}
-.reply-toggle{display:flex;justify-content:center;margin-bottom:4px;}
-.reply-form{display:none;}
-.reply-form.visible{display:block;}
-.reply-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px;}
+.letter-heart-top {
+text-align: center;
+font-size: 1.4rem;
+margin-bottom: 20px;
+opacity: 0.7;
+}
+.letter-to {
+font-family:‘DM Serif Display’,serif; font-style:italic;
+font-size:1.1rem; margin-bottom: 20px; color:var(–ink);
+}
+.letter-body { font-size:0.97rem; white-space:pre-wrap; color:var(–ink); }
+.letter-from {
+margin-top: 28px; text-align: right;
+font-family:‘DM Serif Display’,serif; font-style:italic;
+font-size:1rem; color:var(–ink);
+}
+.letter-heart-bottom {
+text-align: center;
+font-size: 1rem;
+margin-top: 20px;
+color: var(–coral);
+letter-spacing: 0.5em;
+opacity: 0.5;
+}
+.ornament { text-align:center; color:var(–coral); font-size:0.9rem; letter-spacing:0.4em; margin:16px 0; opacity:0.45; }
+.reply-section { margin-top:28px; padding-top:24px; border-top:1px solid #ffe0e0; }
+.reply-section h3 { font-family:‘DM Serif Display’,serif; font-style:italic; font-size:1.05rem; color:#c07070; margin-bottom:16px; text-align:center; }
+.reply-toggle { display:flex; justify-content:center; margin-bottom:4px; }
+.reply-form { display:none; }
+.reply-form.visible { display:block; }
+.reply-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:16px; }
 
 /* ══ SUCCESS ══ */
 .success-card{background:white;border-radius:20px;padding:44px 36px;width:100%;text-align:center;box-shadow:0 4px 24px var(–shadow-card);}
@@ -269,7 +364,7 @@ border-radius:16px;position:relative;line-height:1.95;overflow:hidden;
   <button class="btn-ghost back-link" onclick="showPage('page-home')">← Retour</button>
   <div class="page-header">
     <h1>Écrire une lettre</h1>
-    <p>Elle sera scellée jusqu'à ce que ton ami l'ouvre 🎀</p>
+    <p>Elle sera scellée jusqu'à ce que ton ami l'ouvre</p>
   </div>
   <div class="paper">
     <div class="field-group">
@@ -285,7 +380,7 @@ border-radius:16px;position:relative;line-height:1.95;overflow:hidden;
       <input type="text" id="w-from" placeholder="Ton prénom">
     </div>
     <div class="actions">
-      <button class="btn btn-primary" onclick="generateLetterLink()">Sceller &amp; envoyer 🎀</button>
+      <button class="btn btn-primary" onclick="generateLetterLink()">Sceller &amp; envoyer 💌</button>
     </div>
   </div>
 </div>
@@ -312,66 +407,51 @@ border-radius:16px;position:relative;line-height:1.95;overflow:hidden;
 <!-- ══ ENVELOPPE ══ -->
 
 <div class="page" id="page-envelope">
-  <div class="page-header">
-    <h1>Tu as reçu une lettre</h1>
-    <p>Clique sur l'enveloppe pour l'ouvrir 🎀</p>
-  </div>
-  <div class="envelope-scene" id="envelope" onclick="openEnvelope()">
-    <div class="envelope-wrap">
-      <div class="envelope-body">
-        <div class="env-bottom"></div>
-        <div class="env-left"></div>
-        <div class="env-right"></div>
-        <div class="env-letter">✦</div>
+  <div class="env-scene" id="envelope" onclick="openEnvelope()">
+    <div class="env-wrap">
+      <div class="env-body">
+        <div class="env-tri-bottom"></div>
+        <div class="env-tri-left"></div>
+        <div class="env-tri-right"></div>
+        <div class="env-paper">♡</div>
       </div>
       <div class="env-flap"><div class="env-flap-inner"></div></div>
-      <div class="env-ribbon-h"></div>
-      <div class="env-ribbon-v"></div>
-      <div class="env-bow">🎀</div>
+      <div class="env-heart">❤️</div>
     </div>
+    <div class="env-hint" id="env-hint">Appuie pour ouvrir &lt;3</div>
   </div>
-  <div class="env-hint" id="env-hint">Cliquer pour ouvrir</div>
 </div>
 
 <!-- ══ LETTRE + RÉPONDRE ══ -->
 
 <div class="page" id="page-letter">
   <div class="letter-paper">
-    <div class="letter-lines"></div>
-    <svg class="flower-corner flower-tl" viewBox="0 0 96 96" fill="none"><g><ellipse cx="22" cy="10" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="34" cy="22" rx="8" ry="5" fill="#d4748e"/><ellipse cx="22" cy="34" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="10" cy="22" rx="8" ry="5" fill="#d4748e"/><circle cx="22" cy="22" r="7" fill="#f5c8d4" stroke="#c0546e" stroke-width="1"/><circle cx="22" cy="22" r="3.5" fill="#c0546e"/><path d="M22 29 Q18 50 20 70" stroke="#8faa62" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="14" cy="52" rx="9" ry="4.5" fill="#a8bf7a" transform="rotate(-35 14 52)"/><ellipse cx="26" cy="63" rx="8" ry="4" fill="#8faa62" transform="rotate(25 26 63)"/><ellipse cx="52" cy="10" rx="3.5" ry="5.5" fill="#f0b0c4"/><ellipse cx="60" cy="18" rx="5.5" ry="3.5" fill="#e09ab0"/><ellipse cx="52" cy="26" rx="3.5" ry="5.5" fill="#f0b0c4"/><ellipse cx="44" cy="18" rx="5.5" ry="3.5" fill="#e09ab0"/><circle cx="52" cy="18" r="5" fill="#f9dde4" stroke="#d4748e" stroke-width="0.8"/><circle cx="52" cy="18" r="2.5" fill="#d4748e"/></g></svg>
-    <svg class="flower-corner flower-tr" viewBox="0 0 96 96" fill="none"><g><ellipse cx="22" cy="10" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="34" cy="22" rx="8" ry="5" fill="#d4748e"/><ellipse cx="22" cy="34" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="10" cy="22" rx="8" ry="5" fill="#d4748e"/><circle cx="22" cy="22" r="7" fill="#f5c8d4" stroke="#c0546e" stroke-width="1"/><circle cx="22" cy="22" r="3.5" fill="#c0546e"/><path d="M22 29 Q18 50 20 70" stroke="#8faa62" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="14" cy="52" rx="9" ry="4.5" fill="#a8bf7a" transform="rotate(-35 14 52)"/><ellipse cx="26" cy="63" rx="8" ry="4" fill="#8faa62" transform="rotate(25 26 63)"/><ellipse cx="52" cy="10" rx="3.5" ry="5.5" fill="#f0b0c4"/><ellipse cx="60" cy="18" rx="5.5" ry="3.5" fill="#e09ab0"/><ellipse cx="52" cy="26" rx="3.5" ry="5.5" fill="#f0b0c4"/><ellipse cx="44" cy="18" rx="5.5" ry="3.5" fill="#e09ab0"/><circle cx="52" cy="18" r="5" fill="#f9dde4" stroke="#d4748e" stroke-width="0.8"/><circle cx="52" cy="18" r="2.5" fill="#d4748e"/></g></svg>
-    <svg class="flower-corner flower-bl" viewBox="0 0 96 96" fill="none"><g><ellipse cx="22" cy="10" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="34" cy="22" rx="8" ry="5" fill="#d4748e"/><ellipse cx="22" cy="34" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="10" cy="22" rx="8" ry="5" fill="#d4748e"/><circle cx="22" cy="22" r="7" fill="#f5c8d4" stroke="#c0546e" stroke-width="1"/><circle cx="22" cy="22" r="3.5" fill="#c0546e"/><path d="M22 29 Q18 50 20 70" stroke="#8faa62" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="14" cy="52" rx="9" ry="4.5" fill="#a8bf7a" transform="rotate(-35 14 52)"/><ellipse cx="26" cy="63" rx="8" ry="4" fill="#8faa62" transform="rotate(25 26 63)"/></g></svg>
-    <svg class="flower-corner flower-br" viewBox="0 0 96 96" fill="none"><g><ellipse cx="22" cy="10" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="34" cy="22" rx="8" ry="5" fill="#d4748e"/><ellipse cx="22" cy="34" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="10" cy="22" rx="8" ry="5" fill="#d4748e"/><circle cx="22" cy="22" r="7" fill="#f5c8d4" stroke="#c0546e" stroke-width="1"/><circle cx="22" cy="22" r="3.5" fill="#c0546e"/><path d="M22 29 Q18 50 20 70" stroke="#8faa62" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="26" cy="63" rx="8" ry="4" fill="#8faa62" transform="rotate(25 26 63)"/></g></svg>
-
-```
-<div class="letter-content">
-  <div class="letter-to" id="letter-to"></div>
-  <div class="ornament">— 🌸 —</div>
-  <div class="letter-body" id="letter-body"></div>
-  <div class="letter-from" id="letter-from"></div>
-  <div class="reply-section">
-    <h3>Veux-tu répondre ? 💌</h3>
-    <div class="reply-toggle">
-      <button class="btn btn-secondary" id="reply-toggle-btn" onclick="toggleReply()">Écrire une réponse</button>
-    </div>
-    <div class="reply-form" id="reply-form">
-      <div class="field-group" style="margin-top:14px;">
-        <label class="field-label" for="r-from">Ton prénom</label>
-        <input type="text" id="r-from" placeholder="Comment tu t'appelles ?">
+    <div class="letter-heart-top">♡ &nbsp; ♡ &nbsp; ♡</div>
+    <div class="letter-to" id="letter-to"></div>
+    <div class="ornament">— ❤️ —</div>
+    <div class="letter-body" id="letter-body"></div>
+    <div class="letter-from" id="letter-from"></div>
+    <div class="letter-heart-bottom">&lt;3</div>
+    <div class="reply-section">
+      <h3>Veux-tu répondre ? 💌</h3>
+      <div class="reply-toggle">
+        <button class="btn btn-secondary" id="reply-toggle-btn" onclick="toggleReply()">Écrire une réponse</button>
       </div>
-      <div class="field-group">
-        <label class="field-label" for="r-body">Ta réponse</label>
-        <textarea id="r-body" style="min-height:130px;" placeholder="Écris ta réponse…"></textarea>
-      </div>
-      <div class="reply-actions">
-        <button class="btn btn-secondary" onclick="toggleReply()">Annuler</button>
-        <button class="btn btn-primary" onclick="generateReplyLink()">Sceller ma réponse 🎀</button>
+      <div class="reply-form" id="reply-form">
+        <div class="field-group" style="margin-top:14px;">
+          <label class="field-label" for="r-from">Ton prénom</label>
+          <input type="text" id="r-from" placeholder="Comment tu t'appelles ?">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="r-body">Ta réponse</label>
+          <textarea id="r-body" style="min-height:130px;" placeholder="Écris ta réponse…"></textarea>
+        </div>
+        <div class="reply-actions">
+          <button class="btn btn-secondary" onclick="toggleReply()">Annuler</button>
+          <button class="btn btn-primary" onclick="generateReplyLink()">Sceller ma réponse 💌</button>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-```
-
   </div>
 </div>
 
