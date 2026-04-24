@@ -198,31 +198,35 @@ transition: transform 0.3s;
 }
 .env-scene:active .env-box { transform: scale(0.97); }
 
-/* Ruban horizontal transparent */
+/* Ruban horizontal corail clair */
 .env-ribbon-h {
 position: absolute;
 left: -4%; right: -4%;
 top: 50%; transform: translateY(-50%);
 height: 13%;
-background: transparent;
-border-top: 1.5px solid rgba(0,0,0,0.25);
-border-bottom: 1.5px solid rgba(0,0,0,0.25);
+background: #f5a0a0;
+border-radius: 2px;
 transition: opacity 0.25s;
 }
-.env-ribbon-h::after { display: none; }
+.env-ribbon-h::after {
+content: ‘’; position: absolute; top: 0; left: 0; right: 0;
+height: 40%; background: rgba(255,255,255,0.3); border-radius: 2px 2px 0 0;
+}
 
-/* Ruban vertical transparent */
+/* Ruban vertical corail clair */
 .env-ribbon-v {
 position: absolute;
 top: -4%; bottom: -4%;
 left: 50%; transform: translateX(-50%);
 width: 13%;
-background: transparent;
-border-left: 1.5px solid rgba(0,0,0,0.25);
-border-right: 1.5px solid rgba(0,0,0,0.25);
+background: #f5a0a0;
+border-radius: 2px;
 transition: opacity 0.25s;
 }
-.env-ribbon-v::after { display: none; }
+.env-ribbon-v::after {
+content: ‘’; position: absolute; top: 0; left: 0; bottom: 0;
+width: 40%; background: rgba(255,255,255,0.3); border-radius: 2px 0 0 2px;
+}
 
 /* Nœud central */
 .env-knot {
