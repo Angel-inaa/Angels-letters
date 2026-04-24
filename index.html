@@ -174,7 +174,7 @@ justify-content: center;
 width: 100%;
 padding: 40px 20px;
 }
-.env-header { text-align: center; margin-bottom: 40px; }
+.env-header { text-align: center; margin-bottom: 48px; }
 .env-header h1 {
 font-family: ‘DM Serif Display’, serif; font-style: italic;
 font-size: clamp(1.8rem, 5vw, 2.4rem); color: #1a1a1a; margin-bottom: 10px;
@@ -184,98 +184,79 @@ font-size: clamp(1.8rem, 5vw, 2.4rem); color: #1a1a1a; margin-bottom: 10px;
 .env-scene {
 display: flex; flex-direction: column; align-items: center;
 cursor: pointer; user-select: none;
+position: relative;
 }
 
-/* Enveloppe SVG conteneur */
-.env-wrap {
+/* Conteneur principal — assez grand pour le papier qui dépasse */
+.env-outer {
 position: relative;
 width: min(300px, 82vw);
-height: min(210px, 58vw);
+height: min(340px, 93vw); /* plus haut pour laisser le papier sortir */
+display: flex;
+align-items: flex-end;
 }
 
-.env-body {
-position: absolute; inset: 0;
-background: white;
-border-radius: 6px;
-box-shadow: 0 12px 48px rgba(180,40,40,0.2), 0 2px 8px rgba(180,40,40,0.1);
-overflow: hidden;
+/* Le SVG enveloppe fermée */
+.env-closed {
+position: absolute;
+bottom: 0; left: 0; right: 0;
+width: 100%;
+transition: opacity 0.3s 0.1s;
 }
+.env-scene.open .env-closed { opacity: 0; }
 
-/* Lignes diagonales de l’enveloppe */
-.env-body::before {
-content: ‘’;
-position: absolute; inset: 0;
-background:
-linear-gradient(to bottom right, transparent calc(50% - 0.5px), #1a1a1a calc(50% - 0.5px), #1a1a1a calc(50% + 0.5px), transparent calc(50% + 0.5px)),
-linear-gradient(to bottom left, transparent calc(50% - 0.5px), #1a1a1a calc(50% - 0.5px), #1a1a1a calc(50% + 0.5px), transparent calc(50% + 0.5px));
-opacity: 0.15;
+/* Le SVG enveloppe ouverte (corps) — visible après ouverture */
+.env-open-body {
+position: absolute;
+bottom: 0; left: 0; right: 0;
+width: 100%;
+opacity: 0;
+transition: opacity 0.3s 0.5s;
 }
+.env-scene.open .env-open-body { opacity: 1; }
 
-/* Rabat haut */
-.env-flap {
-position: absolute; top: 0; left: 0; right: 0; height: 52%;
-transform-origin: top center;
-transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
-z-index: 4;
-}
-.env-flap-inner {
-width: 100%; height: 100%;
-background: white;
-clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
-border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-.env-scene.open .env-flap { transform: rotateX(-180deg); }
-
-/* Petit papier qui sort */
+/* Papier caché dans l’enveloppe */
 .env-paper {
 position: absolute;
-left: 8%; right: 8%; bottom: 5%;
-height: 88%;
+left: 12%; right: 12%;
+bottom: 35%; /* commence à l’intérieur */
+height: 55%;
 background: white;
-border-radius: 4px;
-z-index: 2;
+border-radius: 8px;
+z-index: 3;
 transform: translateY(0);
-transition: transform 0.85s cubic-bezier(0.4,0,0.2,1) 0.4s;
-box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+transition: transform 0.9s cubic-bezier(0.4,0,0.2,1) 0.5s;
+box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 display: flex; align-items: flex-start; justify-content: flex-start;
-padding: 12px 14px;
+padding: 14px 16px;
 overflow: hidden;
+border: 1px solid rgba(0,0,0,0.08);
 }
 .env-paper-text {
-font-family: ‘DM Serif Display’, serif;
-font-style: italic;
-font-size: clamp(0.65rem, 2vw, 0.8rem);
-color: #555;
+font-family: ‘DM Serif Display’, serif; font-style: italic;
+font-size: clamp(0.7rem, 2.2vw, 0.85rem);
+color: #333;
 opacity: 0;
-transition: opacity 0.4s 0.9s;
+transition: opacity 0.5s 1s;
 }
-.env-scene.open .env-paper { transform: translateY(-58%); }
+.env-scene.open .env-paper { transform: translateY(-62%); }
 .env-scene.open .env-paper-text { opacity: 1; }
 
-/* Ruban SVG */
+/* Nœud sur l’enveloppe fermée */
 .env-bow {
-position: absolute; top: 50%; left: 50%;
-transform: translate(-50%, -50%);
+position: absolute;
+bottom: 28%; left: 50%;
+transform: translateX(-50%);
 z-index: 6;
-width: clamp(60px, 18vw, 90px);
-transition: opacity 0.3s, transform 0.3s;
+width: clamp(65px, 20vw, 95px);
+transition: opacity 0.25s, transform 0.3s;
 pointer-events: none;
-filter: drop-shadow(0 3px 6px rgba(160,30,30,0.3));
+filter: drop-shadow(0 3px 8px rgba(140,20,20,0.25));
 }
 .env-scene.open .env-bow {
 opacity: 0;
-transform: translate(-50%, -60%) scale(0.8);
+transform: translateX(-50%) scale(0.7) translateY(-10px);
 }
-
-.env-hint {
-margin-top: 22px;
-color: #1a1a1a;
-font-style: italic;
-font-size: 0.9rem;
-animation: pulse 2s ease-in-out infinite;
-transition: opacity 0.3s;
-}
-@keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
 
 /* ══ LETTER ══ */
 #page-letter {
@@ -285,7 +266,12 @@ padding: 40px 20px 60px;
 animation: fadeUp 0.8s ease forwards;
 }
 #page-reply-sent { animation: fadeUp 0.6s ease forwards; }
-#page-read-reply { animation: fadeUp 0.6s ease forwards; }
+#page-read-reply {
+min-height: 100vh;
+justify-content: flex-start;
+padding: 40px 20px 60px;
+animation: fadeUp 0.6s ease forwards;
+}
 @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 
 .letter-paper {
@@ -298,10 +284,16 @@ border-radius: 16px;
 position: relative;
 line-height: 1.95;
 }
-.letter-heart-top {
-text-align: center; font-size: 1.2rem;
-margin-bottom: 24px; opacity: 0.5; color: #f07070;
-letter-spacing: 0.6em;
+.letter-tag {
+display: inline-block;
+background: #f07070;
+color: white;
+font-size: 0.7rem;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+padding: 3px 12px;
+border-radius: 20px;
+margin-bottom: 20px;
 }
 .letter-to {
 font-family:‘DM Serif Display’,serif; font-style:italic;
@@ -317,7 +309,6 @@ font-size:1rem; color:#1a1a1a;
 text-align: center; font-size: 1rem;
 margin-top: 24px; color: #f07070; opacity: 0.5;
 }
-.ornament { text-align:center; color:#f07070; font-size:0.9rem; letter-spacing:0.4em; margin:16px 0; opacity:0.45; }
 .reply-section { margin-top:32px; padding-top:24px; border-top:1px solid #ffe0e0; }
 .reply-section h3 { font-family:‘DM Serif Display’,serif; font-style:italic; font-size:1.05rem; color:#c07070; margin-bottom:16px; text-align:center; }
 .reply-toggle { display:flex; justify-content:center; margin-bottom:4px; }
@@ -426,32 +417,75 @@ margin-top: 24px; color: #f07070; opacity: 0.5;
     <p>Clique sur l'enveloppe pour l'ouvrir</p>
   </div>
   <div class="env-scene" id="envelope" onclick="openEnvelope()">
-    <div class="env-wrap">
-      <div class="env-body"></div>
-      <div class="env-flap"><div class="env-flap-inner"></div></div>
-      <div class="env-paper">
-        <span class="env-paper-text" id="env-paper-text"></span>
-      </div>
-      <!-- Ruban SVG dessiné -->
-      <svg class="env-bow" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Boucle gauche -->
-        <path d="M100 75 C80 55, 30 40, 20 55 C10 70, 40 95, 100 80" fill="#e05050" stroke="#b03030" stroke-width="2"/>
-        <path d="M100 75 C80 60, 35 50, 25 60 C18 68, 45 88, 100 78" fill="#f07070" opacity="0.5"/>
-        <!-- Boucle droite -->
-        <path d="M100 75 C120 55, 170 40, 180 55 C190 70, 160 95, 100 80" fill="#e05050" stroke="#b03030" stroke-width="2"/>
-        <path d="M100 75 C120 60, 165 50, 175 60 C182 68, 155 88, 100 78" fill="#f07070" opacity="0.5"/>
-        <!-- Nœud central -->
-        <ellipse cx="100" cy="77" rx="12" ry="10" fill="#f08080" stroke="#b03030" stroke-width="1.5"/>
-        <ellipse cx="100" cy="77" rx="7" ry="6" fill="#f5a0a0"/>
-        <!-- Queue gauche -->
-        <path d="M94 85 C85 105, 70 125, 60 140" stroke="#e05050" stroke-width="8" stroke-linecap="round" fill="none"/>
-        <path d="M94 85 C82 108, 65 130, 55 145" stroke="#b03030" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
-        <!-- Queue droite -->
-        <path d="M106 85 C115 105, 130 125, 140 140" stroke="#e05050" stroke-width="8" stroke-linecap="round" fill="none"/>
-        <path d="M106 85 C118 108, 135 130, 145 145" stroke="#b03030" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
-      </svg>
-    </div>
-    <div class="env-hint" id="env-hint">Appuie pour ouvrir &lt;3</div>
+    <div class="env-outer">
+
+```
+  <!-- Papier qui sort (derrière l'enveloppe ouverte, devant le corps fermé) -->
+  <div class="env-paper" style="z-index:3;">
+    <span class="env-paper-text" id="env-paper-text"></span>
+  </div>
+
+  <!-- Enveloppe FERMÉE (rabat pointu en haut, diagonales, nœud) -->
+  <svg class="env-closed" viewBox="0 0 300 210" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 8px 24px rgba(160,30,30,0.18))">
+    <!-- Corps -->
+    <rect x="2" y="60" width="296" height="148" rx="8" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+    <!-- Diagonale bas-gauche -->
+    <line x1="2" y1="208" x2="148" y2="130" stroke="#1a1a1a" stroke-width="1.2" opacity="0.25"/>
+    <!-- Diagonale bas-droite -->
+    <line x1="298" y1="208" x2="152" y2="130" stroke="#1a1a1a" stroke-width="1.2" opacity="0.25"/>
+    <!-- Rabat fermé (triangle pointant vers le bas) -->
+    <path d="M2 60 L150 160 L298 60" fill="white" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+    <!-- Petit arc en bas du rabat -->
+    <path d="M108 126 Q150 148 192 126" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+  </svg>
+
+  <!-- Nœud par-dessus l'enveloppe fermée -->
+  <svg class="env-bow" viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Boucle gauche extérieure -->
+    <path d="M98 82 C75 58 28 38 12 52 C2 62 18 92 55 96 C72 98 88 90 98 82Z" fill="#d94040" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Reflet boucle gauche -->
+    <path d="M95 80 C78 62 42 46 28 56 C20 63 32 84 60 88" fill="#e86060" opacity="0.5"/>
+    <!-- Ombre boucle gauche -->
+    <path d="M55 90 C38 86 20 74 22 64" stroke="#8b1a1a" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+    <!-- Boucle droite extérieure -->
+    <path d="M102 82 C125 58 172 38 188 52 C198 62 182 92 145 96 C128 98 112 90 102 82Z" fill="#d94040" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Reflet boucle droite -->
+    <path d="M105 80 C122 62 158 46 172 56 C180 63 168 84 140 88" fill="#e86060" opacity="0.5"/>
+    <!-- Ombre boucle droite -->
+    <path d="M145 90 C162 86 180 74 178 64" stroke="#8b1a1a" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+    <!-- Nœud central -->
+    <ellipse cx="100" cy="82" rx="13" ry="11" fill="#f08080" stroke="#8b1a1a" stroke-width="1.8"/>
+    <ellipse cx="100" cy="80" rx="7" ry="6" fill="#f5b0b0"/>
+    <!-- Queue gauche -->
+    <path d="M91 91 C84 108 72 128 62 148" stroke="#d94040" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <path d="M91 91 C82 110 69 132 58 153" stroke="#8b1a1a" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+    <!-- Pointe queue gauche -->
+    <path d="M62 148 C58 155 52 158 56 152" stroke="#d94040" stroke-width="7" stroke-linecap="round"/>
+    <!-- Queue droite -->
+    <path d="M109 91 C116 108 128 128 138 148" stroke="#d94040" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <path d="M109 91 C118 110 131 132 142 153" stroke="#8b1a1a" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+    <!-- Pointe queue droite -->
+    <path d="M138 148 C142 155 148 158 144 152" stroke="#d94040" stroke-width="7" stroke-linecap="round"/>
+  </svg>
+
+  <!-- Enveloppe OUVERTE (rabat replié, visible après animation) -->
+  <svg class="env-open-body" viewBox="0 0 300 210" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 8px 24px rgba(160,30,30,0.18))">
+    <!-- Corps -->
+    <rect x="2" y="60" width="296" height="148" rx="8" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+    <!-- Diagonales bas -->
+    <line x1="2" y1="208" x2="148" y2="130" stroke="#1a1a1a" stroke-width="1.2" opacity="0.25"/>
+    <line x1="298" y1="208" x2="152" y2="130" stroke="#1a1a1a" stroke-width="1.2" opacity="0.25"/>
+    <!-- Arc bas du rabat ouvert -->
+    <path d="M108 126 Q150 148 192 126" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
+    <!-- Rabat ouvert replié vers le haut (triangle pointant vers le haut) -->
+    <path d="M2 60 L150 -30 L298 60" fill="white" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
+    <!-- Intérieur légèrement teinté -->
+    <rect x="3" y="61" width="294" height="80" rx="0" fill="#fdf5f5" opacity="0.6"/>
+  </svg>
+
+</div>
+```
+
   </div>
 </div>
 
@@ -459,9 +493,7 @@ margin-top: 24px; color: #f07070; opacity: 0.5;
 
 <div class="page" id="page-letter">
   <div class="letter-paper">
-    <div class="letter-heart-top">♡ &nbsp; ♡ &nbsp; ♡</div>
     <div class="letter-to" id="letter-to"></div>
-    <div class="ornament">— ❤️ —</div>
     <div class="letter-body" id="letter-body"></div>
     <div class="letter-from" id="letter-from"></div>
     <div class="letter-heart-bottom">&lt;3</div>
@@ -545,17 +577,14 @@ margin-top: 24px; color: #f07070; opacity: 0.5;
 <!-- ══ LIRE UNE RÉPONSE ══ -->
 
 <div class="page" id="page-read-reply">
-  <button class="btn-ghost back-link" onclick="showPage('page-inbox')">← Retour aux réponses</button>
   <div class="letter-paper">
-    <div class="letter-lines"></div>
-    <svg class="flower-corner flower-tl" viewBox="0 0 96 96" fill="none"><g><ellipse cx="22" cy="10" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="34" cy="22" rx="8" ry="5" fill="#d4748e"/><ellipse cx="22" cy="34" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="10" cy="22" rx="8" ry="5" fill="#d4748e"/><circle cx="22" cy="22" r="7" fill="#f5c8d4" stroke="#c0546e" stroke-width="1"/><circle cx="22" cy="22" r="3.5" fill="#c0546e"/></g></svg>
-    <svg class="flower-corner flower-br" viewBox="0 0 96 96" fill="none"><g><ellipse cx="22" cy="10" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="34" cy="22" rx="8" ry="5" fill="#d4748e"/><ellipse cx="22" cy="34" rx="5" ry="8" fill="#e09ab0"/><ellipse cx="10" cy="22" rx="8" ry="5" fill="#d4748e"/><circle cx="22" cy="22" r="7" fill="#f5c8d4" stroke="#c0546e" stroke-width="1"/><circle cx="22" cy="22" r="3.5" fill="#c0546e"/></g></svg>
-    <div class="letter-content">
-      <div class="tag">Réponse reçue</div>
-      <div class="letter-to" id="reply-to"></div>
-      <div class="ornament">— 🌸 —</div>
-      <div class="letter-body" id="reply-body"></div>
-      <div class="letter-from" id="reply-from-display"></div>
+    <div class="letter-tag">Réponse reçue</div>
+    <div class="letter-to" id="reply-to"></div>
+    <div class="letter-body" id="reply-body"></div>
+    <div class="letter-from" id="reply-from-display"></div>
+    <div class="letter-heart-bottom">&lt;3</div>
+    <div style="margin-top:24px;text-align:center;">
+      <button class="btn-ghost" onclick="showPage('page-home')">← Accueil</button>
     </div>
   </div>
 </div>
@@ -674,9 +703,13 @@ window.addEventListener('DOMContentLoaded', () => {
   if (!data) return;
 
   if (data.type === 'letter') {
-    document.getElementById('letter-to').textContent   = data.to   ? 'Pour ' + data.to + ',' : '';
+    const toText = data.to ? 'Pour ' + data.to + ',' : '';
+    document.getElementById('letter-to').textContent   = toText;
     document.getElementById('letter-body').textContent = data.body || '';
     document.getElementById('letter-from').textContent = data.from || '';
+    if (document.getElementById('env-paper-text')) {
+      document.getElementById('env-paper-text').textContent = toText;
+    }
     envelopeOpened = false;
     showPage('page-envelope');
   } else if (data.type === 'reply') {
