@@ -184,79 +184,67 @@ font-size: clamp(1.8rem, 5vw, 2.4rem); color: #1a1a1a; margin-bottom: 10px;
 .env-scene {
 display: flex; flex-direction: column; align-items: center;
 cursor: pointer; user-select: none;
+}
+
+/* Enveloppe simple : rectangle blanc avec ruban corail */
+.env-box {
 position: relative;
-}
-
-/* Conteneur principal — assez grand pour le papier qui dépasse */
-.env-outer {
-position: relative;
-width: min(300px, 82vw);
-height: min(340px, 93vw); /* plus haut pour laisser le papier sortir */
-display: flex;
-align-items: flex-end;
-}
-
-/* Le SVG enveloppe fermée */
-.env-closed {
-position: absolute;
-bottom: 0; left: 0; right: 0;
-width: 100%;
-transition: opacity 0.3s 0.1s;
-}
-.env-scene.open .env-closed { opacity: 0; }
-
-/* Le SVG enveloppe ouverte (corps) — visible après ouverture */
-.env-open-body {
-position: absolute;
-bottom: 0; left: 0; right: 0;
-width: 100%;
-opacity: 0;
-transition: opacity 0.3s 0.5s;
-}
-.env-scene.open .env-open-body { opacity: 1; }
-
-/* Papier caché dans l’enveloppe */
-.env-paper {
-position: absolute;
-left: 12%; right: 12%;
-bottom: 35%; /* commence à l’intérieur */
-height: 55%;
+width: min(280px, 80vw);
+height: min(190px, 54vw);
 background: white;
 border-radius: 8px;
-z-index: 3;
-transform: translateY(0);
-transition: transform 0.9s cubic-bezier(0.4,0,0.2,1) 0.5s;
-box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-display: flex; align-items: flex-start; justify-content: flex-start;
-padding: 14px 16px;
-overflow: hidden;
-border: 1px solid rgba(0,0,0,0.08);
+box-shadow: 0 8px 32px rgba(180,40,40,0.18), 0 2px 8px rgba(180,40,40,0.1);
+transition: transform 0.3s;
 }
-.env-paper-text {
-font-family: ‘DM Serif Display’, serif; font-style: italic;
-font-size: clamp(0.7rem, 2.2vw, 0.85rem);
-color: #333;
-opacity: 0;
-transition: opacity 0.5s 1s;
-}
-.env-scene.open .env-paper { transform: translateY(-62%); }
-.env-scene.open .env-paper-text { opacity: 1; }
+.env-scene:active .env-box { transform: scale(0.97); }
 
-/* Nœud sur l’enveloppe fermée */
-.env-bow {
+/* Ruban horizontal corail */
+.env-ribbon-h {
 position: absolute;
-bottom: 28%; left: 50%;
-transform: translateX(-50%);
-z-index: 6;
-width: clamp(65px, 20vw, 95px);
+left: -4%; right: -4%;
+top: 50%; transform: translateY(-50%);
+height: 13%;
+background: #f07070;
+border-radius: 2px;
+transition: opacity 0.25s;
+}
+.env-ribbon-h::after {
+content: ‘’; position: absolute; top: 0; left: 0; right: 0;
+height: 40%; background: rgba(255,255,255,0.22); border-radius: 2px 2px 0 0;
+}
+
+/* Ruban vertical corail */
+.env-ribbon-v {
+position: absolute;
+top: -4%; bottom: -4%;
+left: 50%; transform: translateX(-50%);
+width: 13%;
+background: #f07070;
+border-radius: 2px;
+transition: opacity 0.25s;
+}
+.env-ribbon-v::after {
+content: ‘’; position: absolute; top: 0; left: 0; bottom: 0;
+width: 40%; background: rgba(255,255,255,0.22); border-radius: 2px 0 0 2px;
+}
+
+/* Nœud central */
+.env-knot {
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+width: clamp(50px, 15vw, 72px);
+z-index: 3;
 transition: opacity 0.25s, transform 0.3s;
-pointer-events: none;
-filter: drop-shadow(0 3px 8px rgba(140,20,20,0.25));
+filter: drop-shadow(0 2px 6px rgba(140,20,20,0.25));
 }
-.env-scene.open .env-bow {
-opacity: 0;
-transform: translateX(-50%) scale(0.7) translateY(-10px);
-}
+
+.env-scene.open .env-ribbon-h,
+.env-scene.open .env-ribbon-v,
+.env-scene.open .env-knot { opacity: 0; }
+.env-scene.open .env-box { transform: scale(1.04); }
+
+@keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
 
 /* ══ LETTER ══ */
 #page-letter {
@@ -417,75 +405,23 @@ margin-top: 24px; color: #f07070; opacity: 0.5;
     <p>Clique sur l'enveloppe pour l'ouvrir</p>
   </div>
   <div class="env-scene" id="envelope" onclick="openEnvelope()">
-    <div class="env-outer">
-
-```
-  <!-- Papier qui sort (derrière l'enveloppe ouverte, devant le corps fermé) -->
-  <div class="env-paper" style="z-index:3;">
-    <span class="env-paper-text" id="env-paper-text"></span>
-  </div>
-
-  <!-- Enveloppe FERMÉE (rabat pointu en haut, diagonales, nœud) -->
-  <svg class="env-closed" viewBox="0 0 300 210" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 8px 24px rgba(160,30,30,0.18))">
-    <!-- Corps -->
-    <rect x="2" y="60" width="296" height="148" rx="8" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-    <!-- Diagonale bas-gauche -->
-    <line x1="2" y1="208" x2="148" y2="130" stroke="#1a1a1a" stroke-width="1.2" opacity="0.25"/>
-    <!-- Diagonale bas-droite -->
-    <line x1="298" y1="208" x2="152" y2="130" stroke="#1a1a1a" stroke-width="1.2" opacity="0.25"/>
-    <!-- Rabat fermé (triangle pointant vers le bas) -->
-    <path d="M2 60 L150 160 L298 60" fill="white" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
-    <!-- Petit arc en bas du rabat -->
-    <path d="M108 126 Q150 148 192 126" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-  </svg>
-
-  <!-- Nœud par-dessus l'enveloppe fermée -->
-  <svg class="env-bow" viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Boucle gauche extérieure -->
-    <path d="M98 82 C75 58 28 38 12 52 C2 62 18 92 55 96 C72 98 88 90 98 82Z" fill="#d94040" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round"/>
-    <!-- Reflet boucle gauche -->
-    <path d="M95 80 C78 62 42 46 28 56 C20 63 32 84 60 88" fill="#e86060" opacity="0.5"/>
-    <!-- Ombre boucle gauche -->
-    <path d="M55 90 C38 86 20 74 22 64" stroke="#8b1a1a" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
-    <!-- Boucle droite extérieure -->
-    <path d="M102 82 C125 58 172 38 188 52 C198 62 182 92 145 96 C128 98 112 90 102 82Z" fill="#d94040" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round"/>
-    <!-- Reflet boucle droite -->
-    <path d="M105 80 C122 62 158 46 172 56 C180 63 168 84 140 88" fill="#e86060" opacity="0.5"/>
-    <!-- Ombre boucle droite -->
-    <path d="M145 90 C162 86 180 74 178 64" stroke="#8b1a1a" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
-    <!-- Nœud central -->
-    <ellipse cx="100" cy="82" rx="13" ry="11" fill="#f08080" stroke="#8b1a1a" stroke-width="1.8"/>
-    <ellipse cx="100" cy="80" rx="7" ry="6" fill="#f5b0b0"/>
-    <!-- Queue gauche -->
-    <path d="M91 91 C84 108 72 128 62 148" stroke="#d94040" stroke-width="9" stroke-linecap="round" fill="none"/>
-    <path d="M91 91 C82 110 69 132 58 153" stroke="#8b1a1a" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
-    <!-- Pointe queue gauche -->
-    <path d="M62 148 C58 155 52 158 56 152" stroke="#d94040" stroke-width="7" stroke-linecap="round"/>
-    <!-- Queue droite -->
-    <path d="M109 91 C116 108 128 128 138 148" stroke="#d94040" stroke-width="9" stroke-linecap="round" fill="none"/>
-    <path d="M109 91 C118 110 131 132 142 153" stroke="#8b1a1a" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
-    <!-- Pointe queue droite -->
-    <path d="M138 148 C142 155 148 158 144 152" stroke="#d94040" stroke-width="7" stroke-linecap="round"/>
-  </svg>
-
-  <!-- Enveloppe OUVERTE (rabat replié, visible après animation) -->
-  <svg class="env-open-body" viewBox="0 0 300 210" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 8px 24px rgba(160,30,30,0.18))">
-    <!-- Corps -->
-    <rect x="2" y="60" width="296" height="148" rx="8" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
-    <!-- Diagonales bas -->
-    <line x1="2" y1="208" x2="148" y2="130" stroke="#1a1a1a" stroke-width="1.2" opacity="0.25"/>
-    <line x1="298" y1="208" x2="152" y2="130" stroke="#1a1a1a" stroke-width="1.2" opacity="0.25"/>
-    <!-- Arc bas du rabat ouvert -->
-    <path d="M108 126 Q150 148 192 126" fill="white" stroke="#1a1a1a" stroke-width="1.2"/>
-    <!-- Rabat ouvert replié vers le haut (triangle pointant vers le haut) -->
-    <path d="M2 60 L150 -30 L298 60" fill="white" stroke="#1a1a1a" stroke-width="1.5" stroke-linejoin="round"/>
-    <!-- Intérieur légèrement teinté -->
-    <rect x="3" y="61" width="294" height="80" rx="0" fill="#fdf5f5" opacity="0.6"/>
-  </svg>
-
-</div>
-```
-
+    <div class="env-box">
+      <div class="env-ribbon-h"></div>
+      <div class="env-ribbon-v"></div>
+      <!-- Nœud SVG fidèle à l'image -->
+      <svg class="env-knot" viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M98 82 C75 58 28 38 12 52 C2 62 18 92 55 96 C72 98 88 90 98 82Z" fill="#d94040" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M95 80 C78 62 42 46 28 56 C20 63 32 84 60 88" fill="#e86060" opacity="0.5"/>
+        <path d="M102 82 C125 58 172 38 188 52 C198 62 182 92 145 96 C128 98 112 90 102 82Z" fill="#d94040" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M105 80 C122 62 158 46 172 56 C180 63 168 84 140 88" fill="#e86060" opacity="0.5"/>
+        <ellipse cx="100" cy="82" rx="13" ry="11" fill="#f08080" stroke="#8b1a1a" stroke-width="1.8"/>
+        <ellipse cx="100" cy="80" rx="7" ry="6" fill="#f5b0b0"/>
+        <path d="M91 91 C84 108 72 128 62 148" stroke="#d94040" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <path d="M109 91 C116 108 128 128 138 148" stroke="#d94040" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <path d="M62 148 C58 156 54 160 60 154" stroke="#d94040" stroke-width="7" stroke-linecap="round"/>
+        <path d="M138 148 C142 156 146 160 140 154" stroke="#d94040" stroke-width="7" stroke-linecap="round"/>
+      </svg>
+    </div>
   </div>
 </div>
 
@@ -617,8 +553,7 @@ function openEnvelope() {
   if (envelopeOpened) return;
   envelopeOpened = true;
   document.getElementById('envelope').classList.add('open');
-  document.getElementById('env-hint').style.opacity = '0';
-  setTimeout(() => showPage('page-letter'), 1400);
+  setTimeout(() => showPage('page-letter'), 600);
 }
 
 function toggleReply() {
@@ -703,21 +638,16 @@ window.addEventListener('DOMContentLoaded', () => {
   if (!data) return;
 
   if (data.type === 'letter') {
-    const toText = data.to ? 'Pour ' + data.to + ',' : '';
-    document.getElementById('letter-to').textContent   = toText;
+    document.getElementById('letter-to').textContent   = data.to ? 'Pour ' + data.to : '';
     document.getElementById('letter-body').textContent = data.body || '';
     document.getElementById('letter-from').textContent = data.from || '';
-    if (document.getElementById('env-paper-text')) {
-      document.getElementById('env-paper-text').textContent = toText;
-    }
     envelopeOpened = false;
     showPage('page-envelope');
   } else if (data.type === 'reply') {
     saveReplyToInbox(data);
-    document.getElementById('reply-to').textContent = data.originalFrom ? 'En réponse à ' + data.originalFrom + ',' : '';
+    document.getElementById('reply-to').textContent = data.originalFrom ? 'En réponse à ' + data.originalFrom : '';
     document.getElementById('reply-body').textContent = data.body;
     document.getElementById('reply-from-display').textContent = data.from || '';
-    document.querySelector('#page-read-reply .back-link').onclick = () => showPage('page-home');
     showPage('page-read-reply');
   }
 });
