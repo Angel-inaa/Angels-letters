@@ -179,7 +179,7 @@ padding: 40px 20px;
 font-family: ‘DM Serif Display’, serif; font-style: italic;
 font-size: clamp(1.8rem, 5vw, 2.4rem); color: #1a1a1a; margin-bottom: 10px;
 }
-.env-header p { color: #1a1a1a; font-style: italic; font-size: 0.95rem; }
+.env-header p { color: white; font-style: italic; font-size: 0.95rem; }
 
 .env-scene {
 display: flex; flex-direction: column; align-items: center;
@@ -198,34 +198,34 @@ transition: transform 0.3s;
 }
 .env-scene:active .env-box { transform: scale(0.97); }
 
-/* Ruban horizontal corail */
+/* Ruban horizontal corail foncé */
 .env-ribbon-h {
 position: absolute;
 left: -4%; right: -4%;
 top: 50%; transform: translateY(-50%);
 height: 13%;
-background: #f07070;
+background: #d94040;
 border-radius: 2px;
 transition: opacity 0.25s;
 }
 .env-ribbon-h::after {
 content: ‘’; position: absolute; top: 0; left: 0; right: 0;
-height: 40%; background: rgba(255,255,255,0.22); border-radius: 2px 2px 0 0;
+height: 40%; background: rgba(255,255,255,0.18); border-radius: 2px 2px 0 0;
 }
 
-/* Ruban vertical corail */
+/* Ruban vertical corail foncé */
 .env-ribbon-v {
 position: absolute;
 top: -4%; bottom: -4%;
 left: 50%; transform: translateX(-50%);
 width: 13%;
-background: #f07070;
+background: #d94040;
 border-radius: 2px;
 transition: opacity 0.25s;
 }
 .env-ribbon-v::after {
 content: ‘’; position: absolute; top: 0; left: 0; bottom: 0;
-width: 40%; background: rgba(255,255,255,0.22); border-radius: 2px 0 0 2px;
+width: 40%; background: rgba(255,255,255,0.18); border-radius: 2px 0 0 2px;
 }
 
 /* Nœud central */
@@ -356,7 +356,7 @@ margin-top: 24px; color: #f07070; opacity: 0.5;
 <div class="page" id="page-write">
   <button class="btn-ghost back-link" onclick="showPage('page-home')">← Retour</button>
   <div class="page-header">
-    <h1>Écrire une lettre</h1>
+    <h1>Écris une lettre</h1>
     <p>Elle sera scellée jusqu'à ce que ton ami l'ouvre</p>
   </div>
   <div class="paper">
@@ -408,19 +408,6 @@ margin-top: 24px; color: #f07070; opacity: 0.5;
     <div class="env-box">
       <div class="env-ribbon-h"></div>
       <div class="env-ribbon-v"></div>
-      <!-- Nœud SVG fidèle à l'image -->
-      <svg class="env-knot" viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M98 82 C75 58 28 38 12 52 C2 62 18 92 55 96 C72 98 88 90 98 82Z" fill="#d94040" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round"/>
-        <path d="M95 80 C78 62 42 46 28 56 C20 63 32 84 60 88" fill="#e86060" opacity="0.5"/>
-        <path d="M102 82 C125 58 172 38 188 52 C198 62 182 92 145 96 C128 98 112 90 102 82Z" fill="#d94040" stroke="#8b1a1a" stroke-width="2" stroke-linejoin="round"/>
-        <path d="M105 80 C122 62 158 46 172 56 C180 63 168 84 140 88" fill="#e86060" opacity="0.5"/>
-        <ellipse cx="100" cy="82" rx="13" ry="11" fill="#f08080" stroke="#8b1a1a" stroke-width="1.8"/>
-        <ellipse cx="100" cy="80" rx="7" ry="6" fill="#f5b0b0"/>
-        <path d="M91 91 C84 108 72 128 62 148" stroke="#d94040" stroke-width="9" stroke-linecap="round" fill="none"/>
-        <path d="M109 91 C116 108 128 128 138 148" stroke="#d94040" stroke-width="9" stroke-linecap="round" fill="none"/>
-        <path d="M62 148 C58 156 54 160 60 154" stroke="#d94040" stroke-width="7" stroke-linecap="round"/>
-        <path d="M138 148 C142 156 146 160 140 154" stroke="#d94040" stroke-width="7" stroke-linecap="round"/>
-      </svg>
     </div>
   </div>
 </div>
