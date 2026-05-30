@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les lettres de Angel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital@0;1&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --coral: #f07070;
+  --coral-dark: #e05858;
+  --coral-light: #f89898;
+  --ink: #1a1a1a;
+  --ink-light: #555;
+  --white: #ffffff;
+  --envelope: #f5c8d4;
+  --envelope-dark: #e09ab0;
+  --envelope-mid: #f0b0c4;
+  --ribbon: #d4547a;
+  --shadow: rgba(200,80,80,0.12);
+  --shadow-card: rgba(200,80,80,0.15);
+}
+
+body {
+  font-family: 'Lora', Georgia, serif;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  background: linear-gradient(160deg, #f8a0a0 0%, #f07070 40%, #f89898 100%);
+}
+
+.page { display: none; width: 100%; max-width: 520px; }
+.page.active { display: flex; flex-direction: column; align-items: center; }
+
+/* ══ HOME ══ */
+#page-home { min-height: 80vh; justify-content: center; }
+.home-card {
+  background: white;
+  border-radius: 28px;
+  padding: 48px 44px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 12px 60px rgba(180,60,60,0.2);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 0;
+}
+.home-icon-wrap {
+  width: 80px; height: 80px;
+  min-width: 80px; min-height: 80px;
+  background: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  margin-bottom: 28px;
+  box-shadow: 0 0 36px rgba(240,80,80,0.55), 0 0 14px rgba(240,80,80,0.35);
+  flex-shrink: 0;
+}
+.home-title {
+  font-family: 'DM Serif Display', 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.7rem, 5vw, 2.2rem);
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+.home-subtitle {
+  color: var(--ink-light);
+  font-style: italic;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 36px;
+  line-height: 1.5;
+}
+.home-btn {
+  background: var(--coral);
+  color: white;
+  border: none; cursor: pointer;
+  font-family: 'Lora', serif;
+  font-size: 1rem;
+  padding: 18px 40px;
+  border-radius: 50px;
+  width: 100%;
+  max-width: 320px;
+  transition: all 0.2s;
+  letter-spacing: 0.01em;
+}
+.home-btn:hover {
+  background: var(--coral-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(200,80,80,0.3);
+}
+
+/* ══ PAGE HEADER ══ */
+.page-header { text-align: center; margin-bottom: 28px; }
+.page-header h1 {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(1.6rem, 4vw, 2rem); color: var(--ink); line-height: 1.2;
+}
+.page-header p { color: #444; font-style: italic; margin-top: 7px; font-size: 0.9rem; }
+
+/* ══ PAPER ══ */
+.paper {
+  background: white; border-radius: 16px;
+  padding: 40px 44px; width: 100%;
+  box-shadow: 0 4px 24px var(--shadow-card);
+  position: relative; overflow: hidden;
+}
+#page-write .page-header p { color: white; }
+.paper::before { display: none; }
+
+.field-group { margin-bottom: 20px; }
+.field-label {
+  display: block; font-size: 0.67rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--ink-light); margin-bottom: 5px; padding-left: 3px;
+}
+input[type="text"], textarea, input[type="password"] {
+  width: 100%; border: none; border-bottom: 1px solid rgba(0,0,0,0.12);
+  padding: 8px 3px; font-family: 'Lora', serif; font-size: 0.97rem;
+  color: var(--ink); background: transparent; outline: none;
+  transition: border-color 0.2s; resize: none;
+}
+input:focus, textarea:focus { border-bottom-color: var(--coral); }
+input::placeholder, textarea::placeholder { color: rgba(0,0,0,0.25); font-style: italic; }
+textarea { min-height: 190px; line-height: 1.9; }
+
+/* ══ BUTTONS ══ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 28px; border: none; cursor: pointer;
+  font-family: 'Lora', serif; font-size: 0.97rem;
+  border-radius: 50px; transition: all 0.2s;
+}
+.btn-primary { background: var(--coral); color: white; }
+.btn-primary:hover { background: var(--coral-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(200,80,80,0.3); }
+.btn-secondary { background: transparent; color: #1a1a1a !important; border: 1px solid rgba(0,0,0,0.25); font-size: 0.9rem; }
+.btn-secondary:hover { background: rgba(0,0,0,0.04); }
+.btn-ghost {
+  background: transparent; color: var(--ink) !important; font-size: 0.97rem;
+  font-family: 'Lora', serif; font-style: italic;
+  text-decoration: underline; cursor: pointer; border: none; padding: 4px 0;
+}
+.btn-primary { background: #f07070 !important; color: white !important; }
+.btn-primary:hover { background: #e05858 !important; }
+.home-btn { background: #f07070 !important; color: white !important; }
+.home-btn:hover { background: #e05858 !important; }
+.btn-ghost { color: #1a1a1a !important; text-decoration: underline; }
+a { color: #1a1a1a !important; }
+.actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+
+/* ══ LINK CARD ══ */
+.link-card {
+  background: white; border-radius: 20px; padding: 40px 36px; width: 100%;
+  text-align: center; box-shadow: 0 4px 24px var(--shadow-card);
+}
+.link-card .seal { width: 56px; height: 56px; background: #ffe0e0; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.link-card h2 { font-family:'DM Serif Display',serif; font-style:italic; font-size:1.5rem; margin-bottom:9px; color: var(--ink); }
+.link-card p { color: var(--ink); font-style:italic; margin-bottom:22px; font-size:0.97rem; }
+.link-card .btn-ghost { font-size: 0.97rem; color: var(--ink); }
+.link-box {
+  background: #fff5f5; border: 1px solid #f0a0a0; border-radius: 10px;
+  padding: 12px 15px; font-family: monospace; font-size: 0.73rem; color: var(--ink);
+  word-break: break-all; text-align: left; margin-bottom: 13px; max-height: 72px; overflow-y: auto;
+}
+.copy-ok { font-size:0.82rem; color:var(--coral-dark); font-style:italic; height:18px; margin-bottom:18px; }
+
+/* ══ ENVELOPE PAGE ══ */
+#page-envelope {
+  min-height: 100vh;
+  justify-content: center;
+  width: 100%;
+  padding: 40px 20px;
+}
+.env-header { text-align: center; margin-bottom: 48px; }
+.env-header h1 {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(1.8rem, 5vw, 2.4rem); color: #1a1a1a; margin-bottom: 10px;
+}
+.env-header p { color: white; font-style: italic; font-size: 0.95rem; }
+
+.env-scene {
+  display: flex; flex-direction: column; align-items: center;
+  cursor: pointer; user-select: none;
+}
+
+/* Enveloppe simple : rectangle blanc avec ruban corail */
+.env-box {
+  position: relative;
+  width: min(280px, 80vw);
+  height: min(190px, 54vw);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(180,40,40,0.18), 0 2px 8px rgba(180,40,40,0.1);
+  transition: transform 0.3s;
+}
+.env-scene:active .env-box { transform: scale(0.97); }
+
+/* Ruban horizontal corail clair */
+.env-ribbon-h {
+  position: absolute;
+  left: -1%; right: -1%;
+  top: 50%; transform: translateY(-50%);
+  height: 13%;
+  background: #f5a0a0;
+  border-radius: 2px;
+  transition: opacity 0.25s;
+}
+.env-ribbon-h::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 40%; background: rgba(255,255,255,0.3); border-radius: 2px 2px 0 0;
+}
+
+/* Ruban vertical corail clair */
+.env-ribbon-v {
+  position: absolute;
+  top: -1%; bottom: -1%;
+  left: 50%; transform: translateX(-50%);
+  width: 13%;
+  background: #f5a0a0;
+  border-radius: 2px;
+  transition: opacity 0.25s;
+}
+.env-ribbon-v::after {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0;
+  width: 40%; background: rgba(255,255,255,0.3); border-radius: 2px 0 0 2px;
+}
+
+/* Nœud central */
+.env-knot {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(50px, 15vw, 72px);
+  z-index: 3;
+  transition: opacity 0.25s, transform 0.3s;
+  filter: drop-shadow(0 2px 6px rgba(140,20,20,0.25));
+}
+
+.env-scene.open .env-ribbon-h,
+.env-scene.open .env-ribbon-v,
+.env-scene.open .env-knot { opacity: 0; }
+.env-scene.open .env-box { transform: scale(1.04); }
+
+@keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+
+/* ══ LETTER ══ */
+#page-letter {
+  min-height: 100vh;
+  justify-content: flex-start;
+  padding: 40px 20px 60px;
+  animation: fadeUp 0.8s ease forwards;
+}
+#page-reply-sent { animation: fadeUp 0.6s ease forwards; }
+#page-read-reply {
+  min-height: 100vh;
+  justify-content: flex-start;
+  padding: 40px 20px 60px;
+  animation: fadeUp 0.6s ease forwards;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+.letter-paper {
+  background: white;
+  width: 100%;
+  max-width: 520px;
+  padding: 44px 40px 48px;
+  box-shadow: 0 4px 28px rgba(180,40,40,0.15);
+  border-radius: 16px;
+  position: relative;
+  line-height: 1.95;
+}
+.letter-tag {
+  display: inline-block;
+  background: #f07070;
+  color: white;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.letter-to {
+  font-family:'DM Serif Display',serif; font-style:italic;
+  font-size:1.1rem; margin-bottom:20px; color:#1a1a1a;
+}
+.letter-body { font-size:0.97rem; white-space:pre-wrap; color:#1a1a1a; line-height: 1.95; }
+.letter-from {
+  margin-top:28px; text-align:right;
+  font-family:'DM Serif Display',serif; font-style:italic;
+  font-size:1rem; color:#1a1a1a;
+}
+.letter-heart-bottom {
+  text-align: center; font-size: 1rem;
+  margin-top: 24px; color: #f07070; opacity: 0.5;
+}
+.reply-section { margin-top:32px; padding-top:24px; border-top:1px solid #ffe0e0; }
+.reply-section h3 { font-family:'DM Serif Display',serif; font-style:italic; font-size:1.05rem; color:#c07070; margin-bottom:16px; text-align:center; }
+.reply-toggle { display:flex; justify-content:center; margin-bottom:4px; }
+.reply-form { display:none; }
+.reply-form.visible { display:block; }
+.reply-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:16px; }
+
+/* ══ SUCCESS ══ */
+.success-card{background:white;border-radius:20px;padding:44px 36px;width:100%;text-align:center;box-shadow:0 4px 24px var(--shadow-card);}
+.success-card .seal{width:56px;height:56px;background:#fce4ec;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:26px;}
+.success-card h2{font-family:'DM Serif Display',serif;font-style:italic;font-size:1.5rem;margin-bottom:9px;}
+.success-card p{color:#b07080;font-style:italic;margin-bottom:22px;font-size:0.88rem;}
+
+/* ══ LOGIN ══ */
+.login-card{background:white;border-radius:20px;padding:44px 40px;width:100%;max-width:400px;box-shadow:0 4px 24px var(--shadow-card);}
+.login-card h2{font-family:'DM Serif Display',serif;font-style:italic;font-size:1.5rem;margin-bottom:6px;text-align:center;}
+.login-card p{color:#b07080;font-style:italic;font-size:0.86rem;text-align:center;margin-bottom:26px;}
+.login-error{color:var(--pink-deep);font-size:0.83rem;font-style:italic;margin-top:7px;min-height:18px;}
+
+/* ══ INBOX ══ */
+.inbox-list{width:100%;display:flex;flex-direction:column;gap:10px;}
+.inbox-item{background:white;border-radius:12px;padding:18px 22px;box-shadow:0 1px 8px var(--shadow);cursor:pointer;border-left:3px solid var(--envelope-dark);transition:all 0.2s;display:flex;align-items:center;gap:14px;}
+.inbox-item:hover{border-left-color:var(--pink-dark);transform:translateX(3px);box-shadow:0 2px 14px var(--shadow);}
+.inbox-item-icon{font-size:20px;flex-shrink:0;}
+.inbox-item-info{flex:1;min-width:0;}
+.inbox-item-from{font-family:'DM Serif Display',serif;font-style:italic;font-size:0.97rem;color:var(--ink);}
+.inbox-item-preview{font-size:0.8rem;color:#b07080;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.inbox-empty{text-align:center;color:#b07080;font-style:italic;padding:36px 18px;font-size:0.9rem;}
+.tag{display:inline-block;background:#fce4ec;color:#b07080;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:14px;}
+.back-link{align-self:flex-start;margin-bottom:18px;}
+
+@media(max-width:480px){
+  .paper,.letter-paper{padding:26px 20px;}
+  .paper::before,.letter-paper::before{left:38px;}
+  .link-card,.login-card,.home-card,.success-card{padding:28px 20px;}
+  .flower-corner{width:58px;height:58px;}
+  .home-card{padding:40px 24px 36px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <div class="home-card">
+    <div class="home-icon-wrap">💌</div>
+    <h1 class="home-title">Les lettres de Angel</h1>
+    <p class="home-subtitle">Parce que certains mots méritent une enveloppe</p>
+    <button class="home-btn" onclick="showPage('page-write')">Écrire une lettre</button>
+  </div>
+</div>
+
+<!-- ══ ÉCRIRE ══ -->
+<div class="page" id="page-write">
+  <button class="btn-ghost back-link" onclick="showPage('page-home')">← Retour</button>
+  <div class="page-header">
+    <h1>Écris une lettre</h1>
+    <p>Elle sera scellée jusqu'à ce que ton ami l'ouvre</p>
+  </div>
+  <div class="paper">
+    <div class="field-group">
+      <label class="field-label" for="w-to">Pour</label>
+      <input type="text" id="w-to" placeholder="À qui écris-tu ?">
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="w-body">Ta lettre</label>
+      <textarea id="w-body" placeholder="Commence à écrire…" oninput="updateCount()"></textarea>
+      <div style="text-align:right;margin-top:5px;font-size:0.72rem;color:#aaa;font-style:italic;" id="char-count">0 / 1200</div>
+    </div>
+    <div class="field-group">
+      <label class="field-label" for="w-from">De la part de</label>
+      <input type="text" id="w-from" placeholder="Ton prénom">
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="generateLetterLink()">Sceller &amp; envoyer 💌</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LIEN GÉNÉRÉ ══ -->
+<div class="page" id="page-link">
+  <div class="link-card">
+    <div class="seal">💌</div>
+    <h2>Ta lettre est scellée !</h2>
+    <p>Envoie ce lien à ton ami — il clique et découvre sa lettre</p>
+    <div class="link-box" id="generated-link"></div>
+    <div class="copy-ok" id="copy-ok"></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="copyLink()">Copier le lien</button>
+      <button class="btn btn-secondary" onclick="shortenLink('generated-link','copy-ok')">Raccourcir le lien</button>
+      <button class="btn btn-secondary" onclick="showPage('page-write')">Écrire une autre</button>
+    </div>
+    <div style="margin-top:18px;text-align:center;">
+      <button class="btn-ghost" onclick="showPage('page-home')">← Accueil</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ENVELOPPE ══ -->
+<div class="page" id="page-envelope">
+  <div class="env-header">
+    <h1>Tu as reçu une lettre</h1>
+    <p>Clique sur l'enveloppe pour l'ouvrir</p>
+  </div>
+  <div class="env-scene" id="envelope" onclick="openEnvelope()">
+    <div class="env-box">
+      <div class="env-ribbon-h"></div>
+      <div class="env-ribbon-v"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LETTRE + RÉPONDRE ══ -->
+<div class="page" id="page-letter">
+  <div class="letter-paper">
+    <div class="letter-to" id="letter-to"></div>
+    <div class="letter-body" id="letter-body"></div>
+    <div class="letter-from" id="letter-from"></div>
+    <div class="letter-heart-bottom">&lt;3</div>
+    <div class="reply-section">
+      <h3>Veux-tu répondre ? 💌</h3>
+      <div class="reply-toggle">
+        <button class="btn btn-secondary" id="reply-toggle-btn" onclick="toggleReply()">Écrire une réponse</button>
+      </div>
+      <div class="reply-form" id="reply-form">
+        <div class="field-group" style="margin-top:14px;">
+          <label class="field-label" for="r-from">Ton prénom</label>
+          <input type="text" id="r-from" placeholder="Comment tu t'appelles ?">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="r-body">Ta réponse</label>
+          <textarea id="r-body" style="min-height:130px;" placeholder="Écris ta réponse…"></textarea>
+        </div>
+        <div class="reply-actions">
+          <button class="btn btn-secondary" onclick="toggleReply()">Annuler</button>
+          <button class="btn btn-primary" onclick="generateReplyLink()">Sceller ma réponse 💌</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RÉPONSE ENVOYÉE ══ -->
+<div class="page" id="page-reply-sent">
+  <div class="link-card">
+    <div class="seal">💌</div>
+    <h2>Ta réponse est prête !</h2>
+    <p>Envoie ce lien à ton ami pour qu'il puisse lire ta réponse</p>
+    <div class="link-box" id="reply-link"></div>
+    <div class="copy-ok" id="copy-reply-ok"></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="copyReplyLink()">Copier le lien</button>
+      <button class="btn btn-secondary" onclick="shortenLink('reply-link','copy-reply-ok')">Raccourcir le lien</button>
+    </div>
+    <div style="margin-top:18px;text-align:center;">
+      <button class="btn-ghost" onclick="showPage('page-home')">← Accueil</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOGIN ADMIN (URL secrète ?admin) ══ -->
+<div class="page" id="page-login">
+  <div class="login-card">
+    <div style="text-align:center;font-size:26px;margin-bottom:14px;">🗝️</div>
+    <h2>Mes réponses</h2>
+    <p>Entre ton mot de passe pour accéder à ta boîte aux lettres</p>
+    <div class="field-group">
+      <label class="field-label" for="admin-pw">Mot de passe</label>
+      <input type="password" id="admin-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkLogin()">
+    </div>
+    <div class="login-error" id="login-error"></div>
+    <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+      <button class="btn btn-primary" onclick="checkLogin()">Entrer</button>
+    </div>
+    <p style="margin-top:18px;font-size:0.75rem;color:#b07080;font-style:italic;text-align:center;">
+      Mot de passe par défaut : <strong>fleurs</strong><br>
+      Change-le dans le fichier HTML, ligne <code>ADMIN_PASSWORD</code>
+    </p>
+  </div>
+</div>
+
+<!-- ══ BOÎTE AUX LETTRES ══ -->
+<div class="page" id="page-inbox">
+  <button class="btn-ghost back-link" onclick="showPage('page-home')">← Retour</button>
+  <div class="page-header">
+    <h1>Mes réponses</h1>
+    <p>Les lettres que tes amis t'ont envoyées</p>
+  </div>
+  <div class="inbox-list" id="inbox-list"></div>
+  <div style="margin-top:14px;text-align:center;">
+    <button class="btn-ghost" onclick="clearInbox()" style="font-size:0.76rem;">Vider la boîte</button>
+  </div>
+</div>
+
+<!-- ══ LIRE UNE RÉPONSE ══ -->
+<div class="page" id="page-read-reply">
+  <div class="letter-paper">
+    <div class="letter-tag">Réponse reçue</div>
+    <div class="letter-to" id="reply-to"></div>
+    <div class="letter-body" id="reply-body"></div>
+    <div class="letter-from" id="reply-from-display"></div>
+    <div class="letter-heart-bottom">&lt;3</div>
+    <div style="margin-top:24px;text-align:center;">
+      <button class="btn-ghost" onclick="showPage('page-home')">← Accueil</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'fleurs'; // ← Change ce mot de passe !
+const STORAGE_KEY = 'lettres_inbox';
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+// ── Compression simple (LZ-string maison) pour URLs plus courtes ──
+function compress(str) {
+  // Encode en UTF-8 puis compresse avec deflate via CompressionStream si dispo
+  // Sinon fallback sur btoa classique
+  try {
+    const json = JSON.stringify(str);
+    // Utilise encodeURIComponent + btoa avec remplacement URL-safe
+    const encoded = btoa(unescape(encodeURIComponent(json)))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+    return encoded;
+  } catch(e) { return null; }
+}
+function decompress(str) {
+  try {
+    const padded = str.replace(/-/g, '+').replace(/_/g, '/');
+    const pad = padded.length % 4 === 0 ? '' : '===='.slice(padded.length % 4);
+    return JSON.parse(decodeURIComponent(escape(atob(padded + pad))));
+  } catch(e) { return null; }
+}
+
+function enc(obj) {
+  const json = JSON.stringify(obj);
+  // Compression manuelle : on abrège les clés longues
+  const compact = json
+    .replace(/"type":/g, '"t":')
+    .replace(/"body":/g, '"b":')
+    .replace(/"from":/g, '"f":')
+    .replace(/"to":/g, '"d":')
+    .replace(/"letter"/g, '"l"')
+    .replace(/"reply"/g, '"r"')
+    .replace(/"originalFrom":/g, '"o":');
+  return btoa(unescape(encodeURIComponent(compact)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+function dec(str) {
+  try {
+    const padded = str.replace(/-/g, '+').replace(/_/g, '/');
+    const pad = padded.length % 4 === 0 ? '' : '===='.slice(padded.length % 4);
+    const compact = decodeURIComponent(escape(atob(padded + pad)));
+    const json = compact
+      .replace(/"t":/g, '"type":')
+      .replace(/"b":/g, '"body":')
+      .replace(/"f":/g, '"from":')
+      .replace(/"d":/g, '"to":')
+      .replace(/"l"/g, '"letter"')
+      .replace(/"r"/g, '"reply"')
+      .replace(/"o":/g, '"originalFrom":');
+    return JSON.parse(json);
+  } catch(e) { return null; }
+}
+
+async function shortenLink(linkId, feedbackId) {
+  const url = document.getElementById(linkId).textContent;
+  try {
+    const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`);
+    const short = await res.text();
+    if (short.startsWith('https://tinyurl.com')) {
+      document.getElementById(linkId).textContent = short;
+      const fb = document.getElementById(feedbackId);
+      fb.textContent = 'Lien raccourci ✓';
+      setTimeout(() => fb.textContent = '', 2500);
+    }
+  } catch(e) {
+    alert('Impossible de raccourcir, réessaie.');
+  }
+}
+
+function updateCount() {
+  const len = document.getElementById('w-body').value.length;
+  const el = document.getElementById('char-count');
+  el.textContent = len + ' caractères';
+  el.style.color = len > 1800 ? '#f09050' : '#aaa';
+}
+
+function generateLetterLink() {
+  const to   = document.getElementById('w-to').value.trim();
+  const body = document.getElementById('w-body').value.trim();
+  const from = document.getElementById('w-from').value.trim();
+  if (!body) { document.getElementById('w-body').focus(); return; }
+  const url = window.location.href.split('?')[0] + '?l=' + enc({ type:'letter', to, body, from });
+  document.getElementById('generated-link').textContent = url;
+  showPage('page-link');
+}
+function copyLink() { copy(document.getElementById('generated-link').textContent, 'copy-ok'); }
+
+let envelopeOpened = false;
+function openEnvelope() {
+  if (envelopeOpened) return;
+  envelopeOpened = true;
+  document.getElementById('envelope').classList.add('open');
+  setTimeout(() => showPage('page-letter'), 600);
+}
+
+function toggleReply() {
+  const form = document.getElementById('reply-form');
+  const btn  = document.getElementById('reply-toggle-btn');
+  const open = form.classList.toggle('visible');
+  btn.textContent = open ? 'Annuler' : 'Écrire une réponse';
+}
+
+function generateReplyLink() {
+  const from = document.getElementById('r-from').value.trim();
+  const body = document.getElementById('r-body').value.trim();
+  if (!body) { document.getElementById('r-body').focus(); return; }
+  const originalFrom = document.getElementById('letter-from').textContent.trim();
+  const url = window.location.href.split('?')[0] + '?l=' + enc({ type:'reply', from, body, originalFrom });
+  document.getElementById('reply-link').textContent = url;
+  showPage('page-reply-sent');
+}
+function copyReplyLink() { copy(document.getElementById('reply-link').textContent, 'copy-reply-ok'); }
+
+function checkLogin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('admin-pw').value = '';
+    document.getElementById('login-error').textContent = '';
+    loadInbox(); showPage('page-inbox');
+  } else {
+    document.getElementById('login-error').textContent = 'Mot de passe incorrect 🌹';
+  }
+}
+
+function loadInbox() {
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  const list = document.getElementById('inbox-list');
+  if (!data.length) {
+    list.innerHTML = '<div class="inbox-empty">Aucune réponse pour l\'instant 🌸<br><br>Les réponses apparaîtront ici quand tu cliqueras sur les liens de réponse de tes amis.</div>';
+    return;
+  }
+  list.innerHTML = data.map((item,i) => `
+    <div class="inbox-item" onclick="readReply(${i})">
+      <div class="inbox-item-icon">💌</div>
+      <div class="inbox-item-info">
+        <div class="inbox-item-from">${esc(item.from||'Anonyme')}</div>
+        <div class="inbox-item-preview">${esc(item.body.substring(0,80))}${item.body.length>80?'…':''}</div>
+      </div>
+    </div>`).join('');
+}
+function saveReplyToInbox(data) {
+  const inbox = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  inbox.unshift(data);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(inbox));
+}
+function readReply(i) {
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')[i];
+  if (!data) return;
+  document.getElementById('reply-to').textContent = data.originalFrom ? 'En réponse à ' + data.originalFrom + ',' : '';
+  document.getElementById('reply-body').textContent = data.body;
+  document.getElementById('reply-from-display').textContent = data.from || '';
+  showPage('page-read-reply');
+}
+function clearInbox() {
+  if (confirm('Vider toute la boîte aux lettres ?')) { localStorage.removeItem(STORAGE_KEY); loadInbox(); }
+}
+
+function copy(text, feedbackId) {
+  navigator.clipboard.writeText(text).then(() => {
+    const el = document.getElementById(feedbackId);
+    el.textContent = 'Lien copié ✓';
+    setTimeout(() => el.textContent = '', 2500);
+  });
+}
+function esc(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('admin')) { showPage('page-login'); return; }
+  const l = params.get('l');
+  if (!l) return;
+  const data = dec(l);
+  if (!data) return;
+  handleLetterData(data);
+});
+
+function handleLetterData(data) {
+  if (data.type === 'letter') {
+    document.getElementById('letter-to').textContent   = data.to ? 'Pour ' + data.to : '';
+    document.getElementById('letter-body').textContent = data.body || '';
+    document.getElementById('letter-from').textContent = data.from || '';
+    envelopeOpened = false;
+    showPage('page-envelope');
+  } else if (data.type === 'reply') {
+    saveReplyToInbox(data);
+    document.getElementById('reply-to').textContent           = data.originalFrom ? 'En réponse à ' + data.originalFrom : '';
+    document.getElementById('reply-body').textContent         = data.body;
+    document.getElementById('reply-from-display').textContent = data.from || '';
+    showPage('page-read-reply');
+  }
+}
+</script>
+</body>
+</html>
